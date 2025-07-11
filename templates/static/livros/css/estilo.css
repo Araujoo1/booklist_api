@@ -1,0 +1,65 @@
+body {
+    background: #f4f4f4;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* ----------- TÍTULOS ----------- */
+h1, h2, h3 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* ----------- BOTÕES ----------- */
+.btn-custom {
+    background-color: #4e73df;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #2e59d9;
+}
+
+/* ----------- CONTAINERS ----------- */
+.container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+/* ----------- INPUTS ----------- */
+input[type="text"], input[type="date"], select {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/* ----------- CARDS DE LIVROS ----------- */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+/* ----------- IMAGENS ----------- */
+.card-img-top {
+    max-height: 250px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* ----------- FOOTER ----------- */
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}

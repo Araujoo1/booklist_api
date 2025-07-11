@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5 text-center">
+  <h1 class="mb-4">📚 Minha Biblioteca Online</h1>
+  <p class="lead mb-5">Organize seus livros de forma simples e rápida.</p>
+
+  <div class="d-flex justify-content-center gap-4 flex-wrap">
+    <a href="{% url 'cadastrar' %}" class="btn btn-outline-primary btn-lg px-4 py-2">
+      ➕ Cadastrar Livro
+    </a>
+    <a href="{% url 'livros' %}" class="btn btn-outline-success btn-lg px-4 py-2">
+      📖 Ver Meus Livros
+    </a>
+  </div>
+</div>
+{% endblock %}

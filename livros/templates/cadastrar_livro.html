@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cadastrar Livro{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Cadastrar Livro</h2>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- Campo de busca com sugestões -->
+    <div class="mb-3">
+      <label for="busca-livro" class="form-label">Busque o título do livro</label>
+      <input type="text" id="busca-livro" class="form-control" placeholder="Digite o nome do livro">
+      <ul id="sugestoes" class="list-group mt-2"></ul>
+    </div>
+
+    <!-- Campos preenchíveis (vêm da API ou manual) -->
+    <div class="mb-3">
+      <label for="titulo" class="form-label">Título</label>
+      <input type="text" id="titulo" name="titulo" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="autor" class="form-label">Autor</label>
+      <input type="text" id="autor" name="autor" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="data_publicacao" class="form-label">Data de Publicação</label>
+      <input type="text" id="data_publicacao" name="data_publicacao" class="form-control">
+    </div>
+
+    <div class="form-check mb-3">
+      <input type="checkbox" id="lido" name="lido" class="form-check-input">
+      <label for="lido" class="form-check-label">Já li este livro</label>
+    </div>
+
+    <input type="hidden" id="descricao" name="descricao">
+    <input type="hidden" id="capa_url" name="capa_url">
+
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+  </form>
+</div>
+
+<!-- Link para o script -->
+<script src="{% static 'livros/js/busca.js' %}"></script>
+{% endblock %}
