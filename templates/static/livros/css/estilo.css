@@ -63,3 +63,16 @@ footer {
     padding: 20px 0;
     text-align: center;
 }
+
+.card.livro-custom {
+  background-color: #f4f4f4;  /* cor suave em vez de branco puro */
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.card.livro-custom:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  transform: scale(1.01);
+  transition: all 0.2s ease-in-out;
+}

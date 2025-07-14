@@ -8,7 +8,8 @@ def home(request):
 
 def livros(request):
     livros = Livro.objects.all()
-    return render(request, 'livros.html', {'livros': livros})
+    total_livros = len(livros)
+    return render(request, 'livros.html', {'livros': livros, 'total_livros': total_livros})
 
 def cadastrar_livro(request):
     if request.method == 'POST':
