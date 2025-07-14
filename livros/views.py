@@ -1,13 +1,35 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Livro
 from .forms import LivroForm
-import requests
+from django.db.models import Q
+import requests, unicodedata
 
 def home(request):
     return render(request, 'home.html')
 
+def remove_acentos(texto):
+    return ''.join(
+        c for c in unicodedata.normalize('NFD', texto)
+        if unicodedata.category(c) != 'Mn'
+    )
+
 def livros(request):
+    status = request.GET.get('status')
+    busca = request.GET.get('busca')
     livros = Livro.objects.all()
+    
+    if status == 'lido':
+        livros = livros.filter(lido=True)
+    if status == 'nao_lido':
+        livros = livros.filter(lido=False)
+
+    if busca:
+        busca_normalizada = remove_acentos(busca).lower()
+        livros = [
+            livro for livro in livros
+            if busca_normalizada in remove_acentos(livro.titulo).lower()
+            or busca_normalizada in remove_acentos(livro.autor).lower()
+        ]
     total_livros = len(livros)
     return render(request, 'livros.html', {'livros': livros, 'total_livros': total_livros})
 
