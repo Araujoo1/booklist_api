@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load form_extras %}
 {% block title %}Cadastrar Livro{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
   <h2 class="mb-4 text-center">Cadastrar Livro</h2>
-
+<div class="d-flex justify-content-center my-4 gap-3">
+  <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg">🏠 Home</a>
+  <a href="{% url 'livros' %}" class="btn btn-outline-success btn-lg">📔 Meus Livros</a>
+</div>
   <form method="post">
     {% csrf_token %}
 
