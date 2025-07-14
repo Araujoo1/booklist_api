@@ -3,9 +3,16 @@
 {% block content %}
 <div class="container mt-5">
   <div class="card shadow">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="{{ livro.capa_url }}" class="img-fluid rounded-start" alt="Capa do livro">
+    <div class="row g-0 align-items-center">
+      <div class="col-md-4 text-center p-3">
+        {% if livro.capa_url %}
+          <img src="{{ livro.capa_url }}" 
+               alt="Capa do livro {{ livro.titulo }}" 
+               class="img-fluid rounded"
+               style="max-height: 320px; object-fit: cover;">
+        {% else %}
+          <div class="text-muted">Sem capa disponível</div>
+        {% endif %}
       </div>
       <div class="col-md-8">
         <div class="card-body">
@@ -21,7 +28,7 @@
           </p>
           <p class="card-text"><strong>Descrição:</strong><br>{{ livro.descricao }}</p>
           <div class="mt-3">
-            <a href="{% url 'editar' livro.id %}" class="btn btn-outline-primary">Editar</a>
+            <a href="{% url 'editar' livro.id %}" class="btn btn-outline-primary me-2">Editar</a>
             <a href="{% url 'livros' %}" class="btn btn-outline-secondary">Voltar</a>
           </div>
         </div>

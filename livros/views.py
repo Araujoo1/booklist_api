@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Livro
 from .forms import LivroForm
+import requests
 
 def home(request):
     return render(request, 'home.html')
@@ -11,24 +12,27 @@ def livros(request):
 
 def cadastrar_livro(request):
     if request.method == 'POST':
-        titulo = request.POST.get('titulo')
-        autor = request.POST.get('autor')
-        data_publicacao = request.POST.get('data_publicacao')
-        descricao = request.POST.get('descricao')
-        capa_url = request.POST.get('capa_url')
-        lido = 'lido' in request.POST
+        form = LivroForm(request.POST)
+        if form.is_valid():
+            livro = form.save(commit=False)
 
-        Livro.objects.create(
-            titulo=titulo,
-            autor=autor,
-            data_publicacao=data_publicacao,
-            descricao=descricao,
-            capa_url=capa_url,
-            lido=lido
-        )
-        return redirect('livros')
+            # Buscar dados na API do Google Books com base no título
+            titulo = livro.titulo
+            url = f'https://www.googleapis.com/books/v1/volumes?q={titulo}'
+            resposta = requests.get(url)
 
-    return render(request, 'cadastrar_livro.html')
+            if resposta.status_code == 200:
+                dados = resposta.json()
+                if 'items' in dados and len(dados['items']) > 0:
+                    volume = dados['items'][0]['volumeInfo']
+                    livro.descricao = volume.get('description', '')
+                    livro.capa_url = volume.get('imageLinks', {}).get('thumbnail', '')
+            form.save()
+            return redirect('livros')
+    else:
+        form = LivroForm()
+
+    return render (request, 'cadastrar_livro.html', {'form': form})
 
 def detalhes_livro(request, livro_id):
     livro = get_object_or_404(Livro, id=livro_id)
