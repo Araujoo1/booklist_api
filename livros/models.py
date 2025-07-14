@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Livro (models.Model):
     titulo = models.CharField(max_length=70)
@@ -7,6 +8,7 @@ class Livro (models.Model):
     capa_url = models.URLField(blank=True)
     data_publicacao = models.CharField(max_length=50, blank=True)
     lido = models.BooleanField(default=False)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, null = True)    
 
     def __str__(self):
         return self.titulo

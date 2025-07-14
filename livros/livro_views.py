@@ -3,9 +3,11 @@ from .models import Livro
 from .forms import LivroForm
 from django.db.models import Q
 import requests, unicodedata
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'livros/home.html')
 
 def remove_acentos(texto):
     return ''.join(
@@ -13,6 +15,7 @@ def remove_acentos(texto):
         if unicodedata.category(c) != 'Mn'
     )
 
+@login_required
 def livros(request):
     status = request.GET.get('status')
     busca = request.GET.get('busca')
@@ -31,8 +34,9 @@ def livros(request):
             or busca_normalizada in remove_acentos(livro.autor).lower()
         ]
     total_livros = len(livros)
-    return render(request, 'livros.html', {'livros': livros, 'total_livros': total_livros})
+    return render(request, 'livros/livros.html', {'livros': livros, 'total_livros': total_livros})
 
+@login_required
 def cadastrar_livro(request):
     if request.method == 'POST':
         form = LivroForm(request.POST)
@@ -55,12 +59,14 @@ def cadastrar_livro(request):
     else:
         form = LivroForm()
 
-    return render (request, 'cadastrar_livro.html', {'form': form})
+    return render (request, 'livros/cadastrar_livro.html', {'form': form})
 
+@login_required
 def detalhes_livro(request, livro_id):
     livro = get_object_or_404(Livro, id=livro_id)
-    return render(request, 'detalhes_livro.html', {'livro': livro})
+    return render(request, 'livros/detalhes_livro.html', {'livro': livro})
 
+@login_required
 def editar_livro(request, livro_id):
     livro = get_object_or_404(Livro, id=livro_id)
 
@@ -71,8 +77,9 @@ def editar_livro(request, livro_id):
             return redirect('livros')
     else:
         form = LivroForm(instance = livro)
-    return render(request, 'editar_livro.html', {'form': form, 'livro': livro})
+    return render(request, 'livros/editar_livro.html', {'form': form, 'livro': livro})
 
+@login_required
 def confirmar_exclusao(request, livro_id):
     livro = get_object_or_404(Livro, id=livro_id)
     if request.method == 'POST':
