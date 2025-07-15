@@ -4,6 +4,7 @@ from .forms import LivroForm
 from django.db.models import Q
 import requests, unicodedata
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 @login_required
 def home(request):
@@ -56,6 +57,7 @@ def cadastrar_livro(request):
                     livro.capa_url = volume.get('imageLinks', {}).get('thumbnail', '')
             livro.usuario = request.user
             livro.save()
+            messages.success(request, "Livro cadastrado com sucesso!")
             return redirect('livros')
     else:
         form = LivroForm()
@@ -65,16 +67,21 @@ def cadastrar_livro(request):
 @login_required
 def detalhes_livro(request, livro_id):
     livro = get_object_or_404(Livro, id=livro_id)
+    if livro.usuario != request.user:
+        return redirect('livros')
     return render(request, 'livros/detalhes_livro.html', {'livro': livro})
 
 @login_required
 def editar_livro(request, livro_id):
     livro = get_object_or_404(Livro, id=livro_id)
+    if livro.usuario != request.user:
+        return redirect('livros')
 
     if request.method == 'POST':
         form = LivroForm(request.POST, instance = livro)
         if form.is_valid():
             form.save()
+            messages.success(request, "Livro atualizado com sucesso!")
             return redirect('livros')
     else:
         form = LivroForm(instance = livro)
@@ -83,6 +90,9 @@ def editar_livro(request, livro_id):
 @login_required
 def confirmar_exclusao(request, livro_id):
     livro = get_object_or_404(Livro, id=livro_id)
+    if livro.usuario != request.user:
+        return redirect('livros')
     if request.method == 'POST':
         livro.delete()
+        messages.success(request, "Livro excluído com sucesso!")
         return redirect('livros')
