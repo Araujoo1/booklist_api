@@ -76,3 +76,26 @@ footer {
   transform: scale(1.01);
   transition: all 0.2s ease-in-out;
 }
+
+/* estilo da pagina inicial */
+.container-inicial {
+    min-height: 100vh;
+    display: flex;
+    padding: 30px;
+    background: linear-gradient(to right, #f8f9fa, #e3f2fd);
+}
+
+.box-bem-vindo {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    max-width: 400px;
+    width: 100%;
+    margin-right: 40px;
+}
+
+.imagem-bem-vindo img {
+    max-width: 400px;
+    border-radius: 10px;
+}
