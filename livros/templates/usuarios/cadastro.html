@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-inicial d-flex justify-content-center align-items-center vh-100">
+  <div class="card p-4 shadow" style="min-width: 300px; max-width: 400px; width: 100%;">
+    <h3 class="text-center mb-4">Criar Conta</h3>
+    
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="nome" name="nome" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="username" class="form-label">Login</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="senha" class="form-label">Senha</label>
+        <input type="password" class="form-control" id="senha" name="senha" required>
+      </div>
+
+      {% if messages %}
+        <div class="alert alert-danger mt-2">
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+      </div>
+    </form>
+
+    <hr>
+    <p class="text-center mt-2 mb-0">Já possui uma conta?</p>
+    <div class="d-grid mt-1">
+      <a href="{% url 'login' %}" class="btn btn-outline-secondary">Entrar</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
