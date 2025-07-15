@@ -19,7 +19,7 @@ def remove_acentos(texto):
 def livros(request):
     status = request.GET.get('status')
     busca = request.GET.get('busca')
-    livros = Livro.objects.all()
+    livros = Livro.objects.filter(usuario=request.user)
     
     if status == 'lido':
         livros = livros.filter(lido=True)
@@ -54,7 +54,8 @@ def cadastrar_livro(request):
                     volume = dados['items'][0]['volumeInfo']
                     livro.descricao = volume.get('description', '')
                     livro.capa_url = volume.get('imageLinks', {}).get('thumbnail', '')
-            form.save()
+            livro.usuario = request.user
+            livro.save()
             return redirect('livros')
     else:
         form = LivroForm()

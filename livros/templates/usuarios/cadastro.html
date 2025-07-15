@@ -15,8 +15,8 @@
       </div>
 
       <div class="mb-3">
-        <label for="username" class="form-label">Login</label>
-        <input type="text" class="form-control" id="username" name="username" required>
+        <label for="login" class="form-label">Login</label>
+        <input type="text" class="form-control" id="login" name="login" required>
       </div>
 
       <div class="mb-3">
@@ -24,13 +24,12 @@
         <input type="password" class="form-control" id="senha" name="senha" required>
       </div>
 
-      {% if messages %}
-        <div class="alert alert-danger mt-2">
-          {% for message in messages %}
-            {{ message }}
-          {% endfor %}
-        </div>
-      {% endif %}
+      <div class="mb-3">
+        <label for="confirmar" class="form-label">Repetir Senha</label>
+        <input type="password" class="form-control" id="confirmar" name="confirmar" required>
+      </div>
+
+      
 
       <div class="d-grid">
         <button type="submit" class="btn btn-primary">Cadastrar</button>

@@ -10,19 +10,19 @@ def bem_vindo(request):
 def cadastrar_usuario(request):
     if request.method == 'POST':
         nome = request.POST.get('nome')
-        login = request.POST.get('login')
+        usuario = request.POST.get('login')
         senha = request.POST.get('senha')
         confirmar = request.POST.get('confirmar')
 
         if senha != confirmar:
             messages.error(request, "As senhas não coincidem.")
-            return redirect('cadastro')
+            return redirect('cadastro_usuario')
 
-        if User.objects.filter(login=login).exists():
+        if User.objects.filter(username=usuario).exists():
             messages.error(request, "Este login já existe.")
-            return redirect('cadastro')
+            return redirect('cadastro_usuario')
 
-        user = User.objects.create_user(login=login, password=senha, first_name=nome)
+        user = User.objects.create_user(username=usuario, password=senha, first_name=nome)
         user.save()
         messages.success(request, "Conta criada com sucesso!")
         return redirect('login')
@@ -31,10 +31,9 @@ def cadastrar_usuario(request):
 
 def login_usuario(request):
     if request.method == 'POST':
-        login = request.POST.get('login')
+        usuario = request.POST.get('login')
         senha = request.POST.get('senha')
-        user = authenticate(request, login=login, password=senha)
-
+        user = authenticate(request, username=usuario, password=senha)
         if user is not None:
             login(request, user)
             return redirect('home')
