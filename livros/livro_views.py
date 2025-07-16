@@ -5,6 +5,8 @@ from django.db.models import Q
 import requests, unicodedata
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import JsonResponse
+
 
 @login_required
 def home(request):
@@ -46,7 +48,9 @@ def cadastrar_livro(request):
 
             # Buscar dados na API do Google Books com base no título
             titulo = livro.titulo
-            url = f'https://www.googleapis.com/books/v1/volumes?q={titulo}'
+            autor = livro.autor
+            query = f'intitle:{titulo}+inauthor:{autor}'
+            url = f'https://www.googleapis.com/books/v1/volumes?q={query}'
             resposta = requests.get(url)
 
             if resposta.status_code == 200:
@@ -96,3 +100,12 @@ def confirmar_exclusao(request, livro_id):
         livro.delete()
         messages.success(request, "Livro excluído com sucesso!")
         return redirect('livros')
+    
+@login_required
+def alternar_favorito(request, livro_id):
+    if request.method == 'POST':
+        livro = get_object_or_404(Livro, id=livro_id, usuario=request.user)
+        livro.favorito = not livro.favorito
+        livro.save()
+        return JsonResponse({'favorito': livro.favorito})
+    return JsonResponse({'erro': 'Requisição inválida'}, status=400)

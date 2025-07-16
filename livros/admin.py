@@ -4,9 +4,9 @@ from django.utils.html import format_html
 
 @admin.register(Livro)
 class LivroAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'autor', 'data_publicacao', 'lido', 'mostrar_capa')
-    search_fields = ('titulo', 'autor')
-    list_filter = ('lido',)
+    list_display = ('titulo', 'autor', 'data_publicacao', 'lido', 'mostrar_capa', 'usuario')
+    search_fields = ('titulo', 'autor', 'usuario__username')
+    list_filter = ('lido','usuario')
 
     def mostrar_capa(self, obj):
         if obj.capa_url:
