@@ -31,6 +31,8 @@
       <a href="{% url 'livros' %}" class="btn btn-secondary">Voltar</a>
       <button type="submit" class="btn btn-success">Salvar Alterações</button>
     </div>
+    <input type="hidden" name="descricao" value="{{ livro.descricao }}">
+    <input type="hidden" name="capa_url" value="{{ livro.capa_url }}">
   </form>
 </div>
 {% endblock %}

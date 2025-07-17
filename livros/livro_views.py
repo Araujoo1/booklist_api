@@ -28,6 +28,8 @@ def livros(request):
         livros = livros.filter(lido=True)
     if status == 'nao_lido':
         livros = livros.filter(lido=False)
+    if status == 'favoritos':
+        livros = livros.filter(favorito=True)
 
     if busca:
         busca_normalizada = remove_acentos(busca).lower()
@@ -41,32 +43,71 @@ def livros(request):
 
 @login_required
 def cadastrar_livro(request):
+    volume_id = request.GET.get('volume_id')
+    dados_volume = {}
+
+    if volume_id:
+        # Buscar os dados diretamente pela ID do volume
+        url = f'https://www.googleapis.com/books/v1/volumes/{volume_id}'
+        resposta = requests.get(url)
+
+        if resposta.status_code == 200:
+            volume = resposta.json().get('volumeInfo', {})
+            dados_volume = {
+                'titulo': volume.get('title', ''),
+                'autor': ', '.join(volume.get('authors', [])),
+                'data_publicacao': volume.get('publishedDate', ''),
+                'descricao': volume.get('description', ''),
+                'capa_url': volume.get('imageLinks', {}).get('thumbnail', '')
+            }
+
     if request.method == 'POST':
+        print("POST recebido:", request.POST)
         form = LivroForm(request.POST)
+        print("Erros do form:", form.errors)
         if form.is_valid():
             livro = form.save(commit=False)
-
-            # Buscar dados na API do Google Books com base no título
-            titulo = livro.titulo
-            autor = livro.autor
-            query = f'intitle:{titulo}+inauthor:{autor}'
-            url = f'https://www.googleapis.com/books/v1/volumes?q={query}'
-            resposta = requests.get(url)
-
-            if resposta.status_code == 200:
-                dados = resposta.json()
-                if 'items' in dados and len(dados['items']) > 0:
-                    volume = dados['items'][0]['volumeInfo']
-                    livro.descricao = volume.get('description', '')
-                    livro.capa_url = volume.get('imageLinks', {}).get('thumbnail', '')
             livro.usuario = request.user
+
+            livro.descricao = request.POST.get('descricao', '')
+            livro.capa_url = request.POST.get('capa_url', '')
             livro.save()
             messages.success(request, "Livro cadastrado com sucesso!")
             return redirect('livros')
     else:
-        form = LivroForm()
+        form = LivroForm(initial=dados_volume)
 
-    return render (request, 'livros/cadastrar_livro.html', {'form': form})
+    contexto = {'form': form}
+    # Só adiciona descricao e capa_url se estiverem disponíveis
+    if dados_volume:
+        contexto['descricao'] = dados_volume.get('descricao', '')
+        contexto['capa_url'] = dados_volume.get('capa_url', '')
+
+    return render(request, 'livros/cadastrar_livro.html', contexto)
+
+@login_required
+def selecionar_livro(request):
+    termo = request.GET.get('q')
+    resultados = []
+
+    if termo:
+        url = f'https://www.googleapis.com/books/v1/volumes?q={termo}'
+        resposta = requests.get(url)
+
+        if resposta.status_code == 200:
+            dados = resposta.json()
+            for item in dados.get('items', [])[:5]:  # pega os 5 primeiros resultados
+                volume_info = item.get('volumeInfo', {})
+                resultados.append({
+                    'id': item.get('id'),
+                    'titulo': volume_info.get('title', 'Sem título'),
+                    'autor': ', '.join(volume_info.get('authors', ['Desconhecido'])),
+                    'capa': volume_info.get('imageLinks', {}).get('thumbnail', ''),
+                    'descricao': volume_info.get('description', '')[:200]  # descrição reduzida
+                })
+
+    return render(request, 'livros/selecionar_livro.html', {'resultados': resultados, 'termo': termo})
+
 
 @login_required
 def detalhes_livro(request, livro_id):
@@ -84,7 +125,10 @@ def editar_livro(request, livro_id):
     if request.method == 'POST':
         form = LivroForm(request.POST, instance = livro)
         if form.is_valid():
-            form.save()
+            livro = form.save(commit=False)
+            livro.descricao = livro.descricao or request.POST.get('descricao', '')
+            livro.capa_url = livro.capa_url or request.POST.get('capa_url', '')
+            livro.save()
             messages.success(request, "Livro atualizado com sucesso!")
             return redirect('livros')
     else:

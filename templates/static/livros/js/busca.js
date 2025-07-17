@@ -42,16 +42,12 @@ document.addEventListener('DOMContentLoaded', function () {
             li.textContent = `${titulo} - ${autor}`;
             li.style.cursor = 'pointer';
 
-            // Clique preenche os campos e limpa a lista
             li.addEventListener('mousedown', (e) => {
-              e.preventDefault(); // Evita conflito com foco
-              document.getElementById('titulo').value = titulo;
-              document.getElementById('autor').value = autor;
-              document.getElementById('data_publicacao').value = data;
-              document.getElementById('descricao').value = info.description || '';
-              document.getElementById('capa_url').value = info.imageLinks?.thumbnail || '';
-              listaSugestoes.innerHTML = '';
+              e.preventDefault(); // evita conflito com foco
+              const query = `${titulo} ${autor}`.trim();
+              window.location.href = `/selecionar/?q=${encodeURIComponent(query)}`;
             });
+           
 
             listaSugestoes.appendChild(li);
           });

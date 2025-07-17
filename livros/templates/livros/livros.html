@@ -15,10 +15,12 @@
         <option value="">Todos</option>
         <option value="lido">Lido</option>
         <option value="nao_lido">Não Lido</option>
+        <option value="favoritos">Favoritos</option>
       </select>
       <button type="submit" class="btn btn-primary">Filtrar</button>
     </div>
   </form>
+
   {% include 'partials/_mensagens.html' %}
 <p class="text-muted"> Exibindo {{ total_livros }} livro{{ total_livros|pluralize }}</p>
   {% if livros %}

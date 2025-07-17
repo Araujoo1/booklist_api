@@ -14,4 +14,5 @@ urlpatterns = [
     path('editar/<int:livro_id>/', livro_views.editar_livro, name='editar'),
     path('excluir/<int:livro_id>/', livro_views.confirmar_exclusao, name='confirmar_exclusao'),
     path('livros/<int:livro_id>/favorito/', livro_views.alternar_favorito, name='alternar_favorito'),
+    path('selecionar/', livro_views.selecionar_livro, name='selecionar'),
 ]
