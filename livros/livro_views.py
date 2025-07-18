@@ -10,7 +10,14 @@ from django.http import JsonResponse
 
 @login_required
 def home(request):
-    return render(request, 'livros/home.html')
+    user = request.user
+    livros = Livro.objects.filter(usuario = user)
+    total = Livro.objects.filter(usuario = user).count()
+    lidos = Livro.objects.filter(usuario = user, lido=True).count()
+    favoritos = Livro.objects.filter(usuario = user, favorito=True).count()
+
+    mensagem = f"Você tem {total} livro(s) cadastrados — {lidos} lido(s) e {favoritos} favorito(s)."
+    return render(request, 'livros/home.html', {'mensagem': mensagem})
 
 def remove_acentos(texto):
     return ''.join(

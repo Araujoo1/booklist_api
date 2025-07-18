@@ -1,20 +1,41 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-<div class="container py-5 text-center">
-  <h1 class="mb-4">Bem vindo, {{ request.user.first_name }}! </h1>
-  <p class="lead mb-5">Organize seus livros de forma simples e rápida.</p>
+<div class="home-bg">
+  <div class="container py-3 text-center">
+    <h1 class="mb-4">📚 Bem-vindo, {{ request.user.first_name }}!</h1>
 
-  <div class="d-flex justify-content-center gap-4 flex-wrap">
-    <a href="{% url 'cadastrar' %}" class="mb-4 btn btn-outline-primary btn-lg px-4 py-2">
-      ➕ Cadastrar Livro
-    </a>
-    <a href="{% url 'livros' %}" class="mb-4 btn btn-outline-success btn-lg px-4 py-2">
-      📖 Ver Meus Livros
-    </a> 
+    <!-- Card de Progresso -->
+    <div class="card card-progresso shadow-sm mb-4 mx-auto" style="max-width: 500px;">
+      <div class="card-body">
+        <h5 class="card-title">📊 Seu Progresso</h5>
+        <p class="card-text">{{ mensagem }}</p>
+      </div>
+    </div>
+
+    <!-- Botões -->
+    <div class="row justify-content-center text-center">
+      <div class="col-md-3 mb-4">
+        <a href="{% url 'cadastrar' %}" class="btn btn-success btn-lg mx-auto d-block" style="width: 240px;">
+          ➕ Cadastrar Livro</a>
+        <img src="{% static 'livros/img/cadastrar.png' %}" alt="Cadastrar"
+            class="img-fluid mt-2" style="max-height: 120px;">
+      </div>
+      <div class="col-md-3 mb-4">
+        <a href="{% url 'livros' %}" class="btn btn-primary btn-lg mx-auto d-block" style="width: 240px;">
+          📖 Meus Livros</a>
+        <img src="{% static 'livros/img/meuslivros.png' %}" alt="Meus Livros"
+            class="img-fluid mt-2" style="max-height: 120px;">
+      </div>
+    </div>
+
+
+    <!-- Botão de logout -->
+    <div class="mt-4">
+      <a href="{% url 'logout' %}" class="btn btn-danger">
+        <i class="bi bi-box-arrow-right"></i> Sair
+      </a>
+    </div>
   </div>
-  <a href="{% url 'logout' %}" class="btn btn-outline-danger">
-  <i class="bi bi-box-arrow-right"></i> Sair
-</a>
 </div>
 {% endblock %}

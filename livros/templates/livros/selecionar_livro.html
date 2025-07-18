@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="home-bg">
 <div class="container py-4">
   <h2 class="mb-4">Resultados da Busca: "{{ termo }}"</h2>
 
@@ -10,12 +11,14 @@
         <div class="col-md-6 col-lg-4 mb-4">
           <div class="card h-100 shadow-sm">
             {% if livro.capa %}
-              <img src="{{ livro.capa }}" class="card-img-top" alt="Capa de {{ livro.titulo }}">
+              <img src="{{ livro.capa }}"class="card-img-fluid rounded"
+                   alt="Capa do livro {{ livro.titulo }}" 
+                   style="max-height: 250px; object-fit: contain;">
             {% endif %}
             <div class="card-body">
               <h5 class="card-title">{{ livro.titulo }}</h5>
               <p class="card-text"><strong>Autor:</strong> {{ livro.autor }}</p>
-              <p class="card-text"><small>{{ livro.descricao }}</small></p>
+              <p class="card-text"><small>{{ livro.descricao|truncatewords:30 }}</small></p>
               <a href="{% url 'cadastrar' %}?volume_id={{ livro.id }}" class="btn btn-primary mt-2 w-100">
                 Selecionar
               </a>
@@ -27,5 +30,6 @@
   {% else %}
     <p>Nenhum resultado encontrado.</p>
   {% endif %}
+</div>
 </div>
 {% endblock %}

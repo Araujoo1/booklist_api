@@ -4,12 +4,13 @@
 {% block title %}Cadastrar Livro{% endblock %}
 
 {% block content %}
+<div class="home-bg">
 <div class="container mt-5">
   <h2 class="mb-4 text-center">Cadastrar Livro</h2>
 
   <div class="d-flex justify-content-center my-4 gap-3">
-    <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg">🏠 Home</a>
-    <a href="{% url 'livros' %}" class="btn btn-outline-success btn-lg">📔 Meus Livros</a>
+    <a href="{% url 'home' %}" class="btn btn-secondary btn-lg">🏠 Home</a>
+    <a href="{% url 'livros' %}" class="btn btn-primary btn-lg">📔 Meus Livros</a>
   </div>
 
   <form method="post">
@@ -54,7 +55,7 @@
     <button type="submit" class="btn btn-primary">Cadastrar</button>
   </form>
 </div>
-
+</div>
 <!-- Link para o script -->
 <script src="{% static 'livros/js/busca.js' %}"></script>
 {% endblock %}
