@@ -16,6 +16,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 
+  <!-- Botão Dark Mode -->
+<body>
+  <button id="toggle-darkmode" class="btn btn-sm btn-outline-dark position-absolute top-0 end-0 m-3 z-3">
+    🌙 Dark Mode
+  </button>
 
     <!-- Conteúdo dinâmico -->
     {% block content %}{% endblock %}
@@ -25,5 +30,6 @@
     <script src="{% static 'livros/js/excluir_modal.js' %}"></script>
     <script src="{% static 'livros/js/mensagens_auto.js' %}"></script>
     <script src="{% static 'livros/js/favorito.js' %}"></script>
+    <script src="{% static 'livros/js/darkmode.js' %}"></script>
 </body>
 </html>

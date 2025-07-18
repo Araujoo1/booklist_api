@@ -60,9 +60,9 @@
                   <span class="badge bg-secondary me-2">Não Lido</span>
                 {% endif %}</p>
               <div class="mt-auto d-flex justify-content-between align-items-center">
-                <a href="{% url 'detalhes' livro.id %}" class="btn btn-outline-primary btn-sm">Detalhes</a>
+                <a href="{% url 'detalhes' livro.id %}" class="btn btn-primary btn-sm">Detalhes</a>
                 <button type="button"
-                        class="btn btn-outline-danger btn-sm"
+                        class="btn btn-danger btn-sm"
                         data-bs-toggle="modal"
                         data-bs-target="#modalExcluir"
                         data-id="{{ livro.id }}"
