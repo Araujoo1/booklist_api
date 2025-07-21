@@ -1,0 +1,22 @@
+# Ignorar ambiente virtual
+venv/
+
+# Arquivos de banco de dados
+*.sqlite3
+
+# Arquivos do VS Code
+.vscode/
+
+# Cache do Python
+__pycache__/
+*.pyc
+
+# Arquivos temporários
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.swp
+.DS_Store
