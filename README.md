@@ -15,7 +15,7 @@ Este proejto é baseado no meu último projeto booklist. Foram feitas melhorias 
 ![Home](imagens/home.PNG)
 
 ###  Meus Livros
-![Livros](imagens/meuslivros.PNG)
+![Livros](imagens/livros.PNG)
 
 
 ## 🚀 Funcionalidades
