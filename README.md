@@ -11,7 +11,7 @@ Este proejto é baseado no meu último projeto booklist. Foram feitas melhorias 
 ###  Login de Usuário
 ![Login](imagens/login.PNG)
 
-###  Login de Usuário
+###  Home
 ![Home](imagens/home.PNG)
 
 ###  Meus Livros
